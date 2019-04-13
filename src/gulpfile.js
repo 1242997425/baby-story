@@ -5,7 +5,7 @@ const babel = require("gulp-babel");
 const concat = require("gulp-concat");
 
 gulp.task("server", () => {
-    return gulp.src("/index")
+    return gulp.src("/")
         .pipe(webserver({
             open: true,
             port: 8086,
@@ -14,14 +14,14 @@ gulp.task("server", () => {
         }))
 })
 
-gulp.task("script", async() => {
-    await gulp.src("./src/js/*.js")
+gulp.task("script", () => {
+    return gulp.src("./js/*.js")
         .pipe(babel({
             presets: "es2015"
         })) //编译js
         .pipe(concat("main.js")) //合并js
         .pipe(gulpuglify()) //压缩js
-        .pipe(gulp.dest("./build/js"))
+        .pipe(gulp.dest("../build/js"))
 })
 
-gulp.task("default", gulp.parallel("script", "server"))
+gulp.task("default", gulp.series("script", "server"))
